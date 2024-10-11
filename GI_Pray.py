@@ -48,20 +48,27 @@ def pray(info):
         info['S_count'] = S_count
         info['A_count'] = A_count
 
-        UP_weight = 5 + non_UP_count
-        UP_pool = [0 for _ in range(10)]
-        for i in range(UP_weight):
-            UP_pool[i] = 1
-
-        result_next = UP_pool[random.randint(0, 9)]
-        if result_next == 1:
-            non_UP_count = 0
-            info['non_UP_count'] = non_UP_count
+        if non_UP_state == 1:
+            non_UP_state = 0
+            info['non_UP_state'] = non_UP_state
             return 'S+'
-        elif result_next == 0:
-            non_UP_count += 1
-            info['non_UP_count'] = non_UP_count
-            return 'S-'
+        elif non_UP_state == 0:
+            UP_weight = 5 + non_UP_count
+            UP_pool = [0 for _ in range(10)]
+            for i in range(UP_weight):
+                UP_pool[i] = 1
+
+            result_next = UP_pool[random.randint(0, 9)]
+            if result_next == 1:
+                non_UP_count = 0
+                info['non_UP_count'] = non_UP_count
+                return 'S+'
+            elif result_next == 0:
+                non_UP_count += 1
+                non_UP_state = 1
+                info['non_UP_state'] = non_UP_state
+                info['non_UP_count'] = non_UP_count
+                return 'S-'
 
 num = 100000
 
